@@ -4,17 +4,19 @@ const prisma = new PrismaClient()
 
 const items: Prisma.ItemCreateInput[] = [
   {
-    image: 'socks.jpg',
+    image:
+      'https://images.pexels.com/photos/251454/pexels-photo-251454.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
     title: 'Socks',
     price: 1.99
   },
   {
-    image: 'flatcap.jpg',
+    image: 'https://gambleandgunn.com/wp-content/uploads/2018/09/DSC_4460.png',
     title: 'Flat Cap',
     price: 5.99
   },
   {
-    image: 'glasses.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/a/af/Glasses_black.jpg',
     title: 'Glasses',
     price: 3.99
   }
@@ -41,7 +43,12 @@ const users: Prisma.UserCreateInput[] = [
           item: {
             connectOrCreate: {
               where: { title: 'Cat Ears' },
-              create: { image: 'catears.jpg', title: 'Cat Ears', price: 2.99 }
+              create: {
+                image:
+                  'https://images.squarespace-cdn.com/content/v1/55f04163e4b0b418231cabce/1559565440860-TO562ZISIAFIJGCFUI8K/Headband_Leopard_1.jpg?format=1000w',
+                title: 'Cat Ears',
+                price: 2.99
+              }
             }
           },
           quantity: 69

@@ -17,8 +17,7 @@ app.get('/users/:email', async (req, res) => {
       where: { email: email },
       include: {
         orders: {
-          // include: { item: true } // CAN'T USER BOTH AT THE SAME TIME!
-          select: { item: true, quantity: true }
+          include: { item: true }
         }
       }
     })
@@ -32,6 +31,33 @@ app.get('/users/:email', async (req, res) => {
     // @ts-ignore
     res.status(400).send({ error: err.message })
   }
+})
+
+app.delete('/orders/:id', async (req, res) => {
+  const id = Number(req.params.id)
+
+  try {
+    const order = await prisma.order.findUnique({ where: { id } })
+
+    if (order) {
+      await prisma.order.delete({ where: { id } })
+      const user = await prisma.user.findUnique({
+        where: { id: order.userId },
+        include: { orders: { include: { item: true } } }
+      })
+      res.send(user)
+    } else {
+      res.status(404).send({ error: 'Order not found.' })
+    }
+  } catch (err) {
+    // @ts-ignore
+    res.status(400).send({ err: err.message })
+  }
+})
+
+app.patch('/orders/:id', async (req, res) => {
+  // run some code to patch order
+  // reply to user
 })
 
 app.listen(PORT, () => {
